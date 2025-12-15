@@ -7,24 +7,20 @@ export default function RSVP() {
 				</h2>
 
 				<div className="card-romantic text-center space-y-4">
-					{/* SEPARATOR */}
 					<div className="flex items-center justify-center gap-3">
 						<span className="h-px w-8 bg-romantic-primary/40" />
 						<span className="text-romantic-primary text-xs">♥</span>
 						<span className="h-px w-8 bg-romantic-primary/40" />
 					</div>
 
-					<p className="font-medium">
+					<p className="text-sm text-muted leading-relaxed">
 						Uprzejmie prosimy o potwierdzenie obecności
-					</p>
-
-					<p className="text-romantic-primary font-semibold text-lg">
-						do dnia 30.06
-					</p>
-
-					<p className="text-sm text-muted">
-						Potwierdzenia prosimy przesyłać pod wskazane poniżej numery telefonów.
-						
+						<br />
+						do dnia{" "}
+						<span className="font-semibold text-romantic-primary">
+							30.06
+						</span>{" "}
+						pod wskazanymi poniżej numerami telefonów.
 					</p>
 				</div>
 			</div>
