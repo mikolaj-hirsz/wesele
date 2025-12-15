@@ -5,7 +5,7 @@ import Schedule from "./components/Schedule";
 import Location from "./components/Location";
 import Contact from "./components/Contact";
 
-const weddingDate = new Date("2026-06-15T15:00:00");
+const weddingDate = new Date("2026-08-08T15:00:00");
 
 export default function App() {
   return (
