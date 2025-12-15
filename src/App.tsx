@@ -4,7 +4,6 @@ import Countdown from "./components/Countdown";
 import Schedule from "./components/Schedule";
 import Location from "./components/Location";
 import Contact from "./components/Contact";
-import BottomCTA from "./components/BottomCTA";
 
 const weddingDate = new Date("2026-06-15T15:00:00");
 
@@ -50,8 +49,6 @@ export default function App() {
         <div className="h-32" />
       </main>
 
-      {/* STICKY CTA */}
-      <BottomCTA />
     </div>
   );
 }
