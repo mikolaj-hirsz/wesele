@@ -9,11 +9,11 @@ export default function Location() {
         <div className="card-romantic">
           <p className="font-medium">Folwark Dajak</p>
           <p className="text-muted">
-            ul. Przykładowa 12, 00-001 Miejscowość
+            Świętopełka Wielkiego 1, 84-207 Koleczkowo
           </p>
 
           <a
-            href="https://maps.google.com/?q=Folwark+Dajak"
+            href="https://maps.app.goo.gl/R1aPQ18DppeQDzZT9"
             target="_blank"
             rel="noopener noreferrer"
             className="inline-block mt-4 text-romantic-primary underline"

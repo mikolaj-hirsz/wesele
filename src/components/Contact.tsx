@@ -9,14 +9,14 @@ export default function Contact() {
         <div className="card-romantic space-y-2">
           <p>
             <strong>Wiktoria</strong>{" "}
-            <a href="tel:+48111111111" className="text-romantic-primary">
-              +48 111 111 111
+            <a href="tel:+48537404419" className="text-romantic-primary">
+              +48 537 404 419
             </a>
           </p>
           <p>
             <strong>Mikołaj</strong>{" "}
-            <a href="tel:+48222222222" className="text-romantic-primary">
-              +48 222 222 222
+            <a href="tel:+48507987474" className="text-romantic-primary">
+              +48 507 987 474
             </a>
           </p>
         </div>
