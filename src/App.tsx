@@ -4,6 +4,7 @@ import Countdown from "./components/Countdown";
 import Schedule from "./components/Schedule";
 import Location from "./components/Location";
 import Contact from "./components/Contact";
+import RSVP from "./components/RSVP";
 import Menu from "./components/Menu";
 
 
@@ -43,6 +44,8 @@ export default function App() {
         <Menu />
         {/* LOCATION */}
         <Location />
+
+        <RSVP />
 
         {/* CONTACT */}
         <Contact />
