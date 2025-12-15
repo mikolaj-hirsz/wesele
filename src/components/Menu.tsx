@@ -16,7 +16,7 @@ export default function Menu() {
           </p>
 
           <p className="text-muted text-sm">
-            Szczegóły dotyczące dań zostaną udostępnione po nowym roku.
+            Szczegóły dotyczące dań zostaną udostępnione wkrótce.
           </p>
         </div>
       </div>
