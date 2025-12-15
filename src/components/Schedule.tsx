@@ -12,31 +12,25 @@ const ITEMS: ScheduleItem[] = [
     place: "Kaplica na terenie Folwarku",
     highlight: true,
   },
-  {
-    time: "16:30",
-    title: "Przyjęcie weselne",
-    place: "Folwark Dajak",
-  },
-  {
-    time: "24:00",
-    title: "Tort i oczepiny",
-  },
 ];
 
 export default function Schedule() {
   return (
     <div className="space-y-4">
+      {/* ITEMS */}
       {ITEMS.map(item => (
         <div
-          key={item.time}
+          key={item.title}
           className={`
             rounded-2xl p-5
-            ${item.highlight
-              ? "bg-romantic-secondary/40 border border-romantic-primary"
-              : "bg-romantic-surface shadow-sm"}
+            ${
+              item.highlight
+                ? "bg-romantic-secondary/40 border border-romantic-primary"
+                : "bg-romantic-surface shadow-sm"
+            }
           `}
         >
-          {/* TITLE */}
+          {/* HEADER */}
           <div className="flex items-center justify-between mb-2">
             <div className="font-heading text-romantic-text text-lg">
               {item.title}
@@ -52,10 +46,19 @@ export default function Schedule() {
               {item.place}
             </div>
           )}
-
-          
         </div>
       ))}
+
+      {/* TBA INFO */}
+      <div className="rounded-2xl p-5 bg-romantic-surface shadow-sm text-center">
+        <div className="text-romantic-primary text-lg mb-1">
+          ✨ Harmonogram w przygotowaniu
+        </div>
+        <p className="text-sm text-muted">
+          Szczegóły dotyczące dalszego przebiegu dnia
+          zostaną uzupełnione wkrótce.
+        </p>
+      </div>
     </div>
   );
 }
