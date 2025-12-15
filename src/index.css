@@ -18,3 +18,7 @@ body {
 .text-muted {
   @apply text-romantic-muted;
 }
+
+html {
+  scroll-padding-top: 80px;
+}
