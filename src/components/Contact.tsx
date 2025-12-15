@@ -10,7 +10,7 @@ export default function Contact() {
 					<p>
 						<strong>Wiktoria</strong>{" "}
 						<a
-							href="tel:+48537404419"
+							href="sms:+48537404419"
 							aria-label="Zadzwoń do Wiktorii"
 							className="text-romantic-primary"
 						>
@@ -20,7 +20,7 @@ export default function Contact() {
 					<p>
 						<strong>Mikołaj</strong>{" "}
 						<a
-							href="tel:+48507987474"
+							href="sms:+48507987474"
 							aria-label="Zadzwoń do Mikołaja"
 							className="text-romantic-primary"
 						>
