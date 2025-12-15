@@ -5,6 +5,8 @@ import Schedule from "./components/Schedule";
 import Location from "./components/Location";
 import Contact from "./components/Contact";
 import RSVP from "./components/RSVP";
+import Menu from "./components/Menu";
+
 
 const weddingDate = new Date("2026-08-08T15:00:00");
 
@@ -39,7 +41,7 @@ export default function App() {
             <Schedule />
           </div>
         </section>
-
+        <Menu />
         {/* LOCATION */}
         <Location />
 
