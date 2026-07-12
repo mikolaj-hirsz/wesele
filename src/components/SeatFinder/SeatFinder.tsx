@@ -61,7 +61,12 @@ export default function SeatFinder() {
 	const handleSelect = (guest: Guest) => {
 		setSelectedGuest(guest);
 		setQuery(`${guest.firstName} ${guest.lastName}`);
-		setIsFocused(false);
+		// Actually blur the input instead of just setting isFocused(false).
+		// The dropdown button's onMouseDown already calls preventDefault so the
+		// click can register, which means the input never naturally loses focus
+		// here. Forcing a real blur keeps React state and DOM focus in sync,
+		// so the next onFocus event fires correctly and the dropdown works again.
+		inputRef.current?.blur();
 	};
 
 	const handleClear = () => {
@@ -86,7 +91,6 @@ export default function SeatFinder() {
 			e.preventDefault();
 			handleSelect(filteredGuests[highlightedIndex]);
 		} else if (e.key === "Escape") {
-			setIsFocused(false);
 			inputRef.current?.blur();
 		}
 	};
@@ -98,14 +102,15 @@ export default function SeatFinder() {
 					from { opacity: 0; transform: translateY(14px); }
 					to { opacity: 1; transform: translateY(0); }
 				}
-				@keyframes seatPopIn {
+				@keyframes seatBadgePopIn {
 					0% { opacity: 0; transform: scale(0.6); }
 					70% { opacity: 1; transform: scale(1.08); }
 					100% { opacity: 1; transform: scale(1); }
 				}
 				.seat-reveal-card { animation: seatFadeInUp 0.5s ease-out both; }
 				.seat-reveal-map { animation: seatFadeInUp 0.6s ease-out 0.15s both; }
-				.seat-reveal-badge { animation: seatPopIn 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) 0.3s both; }
+				.seat-reveal-badge-1 { animation: seatBadgePopIn 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) 0.25s both; }
+				.seat-reveal-badge-2 { animation: seatBadgePopIn 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) 0.4s both; }
 			`}</style>
 
 			<div className="max-w-3xl mx-auto">
@@ -114,8 +119,8 @@ export default function SeatFinder() {
 				</h2>
 
 				<p className="text-sm text-muted mb-5">
-					Wpisz swoje imię lub nazwisko, aby sprawdzić przy którym stole
-					będziesz siedzieć.
+					Wpisz swoje imię lub nazwisko, aby sprawdzić przy którym stole i na
+					którym krześle będziesz siedzieć.
 				</p>
 
 				{/* SEARCH */}
@@ -217,17 +222,24 @@ export default function SeatFinder() {
 										transition-colors
 										flex
 										items-center
+										justify-between
 										gap-3
 										${i === highlightedIndex ? "bg-romantic-secondary/20" : "hover:bg-romantic-secondary/20"}
 									`}
 								>
-									<div className="w-8 h-8 shrink-0 rounded-full bg-romantic-primary/10 flex items-center justify-center">
-										<Armchair size={15} className="text-romantic-primary" />
-									</div>
+									<span className="flex items-center gap-3">
+										<div className="w-8 h-8 shrink-0 rounded-full bg-romantic-primary/10 flex items-center justify-center">
+											<Armchair size={15} className="text-romantic-primary" />
+										</div>
 
-									<span>
-										<HighlightedName text={guest.firstName} query={query} />{" "}
-										<HighlightedName text={guest.lastName} query={query} />
+										<span>
+											<HighlightedName text={guest.firstName} query={query} />{" "}
+											<HighlightedName text={guest.lastName} query={query} />
+										</span>
+									</span>
+
+									<span className="text-xs text-muted shrink-0">
+										Stół {guest.table}
 									</span>
 								</button>
 							))}
@@ -284,14 +296,30 @@ export default function SeatFinder() {
 								Twoje miejsce
 							</p>
 
-							<div className="seat-reveal-badge mt-3 flex justify-center">
-								<div className="w-24 h-24 rounded-full bg-romantic-primary text-white flex flex-col items-center justify-center shadow-lg">
-									<div className="text-xs tracking-[0.25em] uppercase opacity-80">
-										Stół
+							<div className="mt-4 flex items-center justify-center gap-4">
+								<div className="seat-reveal-badge-1 flex flex-col items-center">
+									<div className="w-20 h-20 rounded-full bg-romantic-primary text-white flex flex-col items-center justify-center shadow-lg">
+										<div className="text-[10px] tracking-[0.2em] uppercase opacity-80">
+											Stół
+										</div>
+										<div className="text-3xl font-heading leading-none mt-1">
+											{selectedGuest.table}
+										</div>
 									</div>
+								</div>
 
-									<div className="text-4xl font-heading leading-none mt-1">
-										{selectedGuest.table}
+								<div className="text-romantic-primary/40 text-xl font-heading">
+									&
+								</div>
+
+								<div className="seat-reveal-badge-2 flex flex-col items-center">
+									<div className="w-20 h-20 rounded-full bg-romantic-surface border-2 border-romantic-primary text-romantic-primary flex flex-col items-center justify-center shadow-lg">
+										<div className="text-[10px] tracking-[0.2em] uppercase opacity-70">
+											Miejsce
+										</div>
+										<div className="text-3xl font-heading leading-none mt-1">
+											{selectedGuest.seat}
+										</div>
 									</div>
 								</div>
 							</div>
@@ -311,7 +339,10 @@ export default function SeatFinder() {
 						{/* MAP */}
 
 						<div className="seat-reveal-map mt-8">
-							<TableMap selectedTable={selectedGuest.table} />
+							<TableMap
+								selectedTable={selectedGuest.table}
+								selectedSeat={selectedGuest.seat}
+							/>
 						</div>
 					</div>
 				)}

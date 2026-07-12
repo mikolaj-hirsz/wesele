@@ -2,6 +2,7 @@ import type { Guest } from "./types";
 
 type Props = {
 	selectedTable: Guest["table"];
+	selectedSeat: number;
 };
 
 type RectTableConfig = {
@@ -10,50 +11,17 @@ type RectTableConfig = {
 	y: number;
 	width: number;
 	height: number;
-	leftSeats: number;
-	rightSeats: number;
+	seatCount: number;
 };
 
 const VIEW_WIDTH = 340;
 const VIEW_HEIGHT = 520;
 
 const RECT_TABLES: RectTableConfig[] = [
-	{
-		number: 2,
-		x: 30,
-		y: 170,
-		width: 70,
-		height: 160,
-		leftSeats: 6,
-		rightSeats: 6,
-	},
-	{
-		number: 3,
-		x: 30,
-		y: 350,
-		width: 70,
-		height: 130,
-		leftSeats: 5,
-		rightSeats: 5,
-	},
-	{
-		number: 4,
-		x: 240,
-		y: 170,
-		width: 70,
-		height: 170,
-		leftSeats: 6,
-		rightSeats: 7,
-	},
-	{
-		number: 5,
-		x: 240,
-		y: 360,
-		width: 70,
-		height: 130,
-		leftSeats: 6,
-		rightSeats: 6,
-	},
+	{ number: 2, x: 30, y: 150, width: 70, height: 170, seatCount: 12 },
+	{ number: 3, x: 30, y: 345, width: 70, height: 140, seatCount: 10 },
+	{ number: 4, x: 240, y: 150, width: 70, height: 180, seatCount: 13 },
+	{ number: 5, x: 240, y: 355, width: 70, height: 140, seatCount: 12 },
 ];
 
 const HEAD_TABLE = {
@@ -63,23 +31,48 @@ const HEAD_TABLE = {
 	rx: 80,
 	ry: 40,
 	bottomY: 130,
+	seatCount: 6,
 };
+
+type SeatPosition = { x: number; y: number; seatNumber: number };
 
 function getSideChairYPositions(yTop: number, yBottom: number, count: number) {
 	if (count <= 1) return [(yTop + yBottom) / 2];
 
-	const usableTop = yTop + 10;
-	const usableBottom = yBottom - 10;
+	const usableTop = yTop + 12;
+	const usableBottom = yBottom - 12;
 	const step = (usableBottom - usableTop) / (count - 1);
 
 	return Array.from({ length: count }, (_, i) => usableTop + step * i);
 }
 
-function getArcChairPositions(count: number) {
+/** Left side top-to-bottom first, then right side top-to-bottom. */
+function getRectSeatPositions(config: RectTableConfig): SeatPosition[] {
+	const { x, y, width, height, seatCount } = config;
+	const leftCount = Math.ceil(seatCount / 2);
+	const rightCount = seatCount - leftCount;
+
+	const leftChairs = getSideChairYPositions(y, y + height, leftCount).map(
+		(chairY, i) => ({ x: x - 13, y: chairY, seatNumber: i + 1 }),
+	);
+
+	const rightChairs = getSideChairYPositions(y, y + height, rightCount).map(
+		(chairY, i) => ({
+			x: x + width + 13,
+			y: chairY,
+			seatNumber: leftCount + i + 1,
+		}),
+	);
+
+	return [...leftChairs, ...rightChairs];
+}
+
+/** Left-to-right along the arc. */
+function getArcSeatPositions(count: number): SeatPosition[] {
 	const { x1, x2, midY, rx, ry } = HEAD_TABLE;
 	const centerX = (x1 + x2) / 2;
-	const chairRx = rx + 16;
-	const chairRy = ry + 16;
+	const chairRx = rx + 18;
+	const chairRy = ry + 18;
 
 	return Array.from({ length: count }, (_, i) => {
 		const angleDeg = 180 - (i * 180) / (count - 1);
@@ -88,21 +81,62 @@ function getArcChairPositions(count: number) {
 		return {
 			x: centerX + chairRx * Math.cos(angleRad),
 			y: midY - chairRy * Math.sin(angleRad),
+			seatNumber: i + 1,
 		};
 	});
 }
 
-function Chair({ x, y, active }: { x: number; y: number; active: boolean }) {
+function Chair({
+	x,
+	y,
+	seatNumber,
+	isTableActive,
+	isSelectedSeat,
+}: {
+	x: number;
+	y: number;
+	seatNumber: number;
+	isTableActive: boolean;
+	isSelectedSeat: boolean;
+}) {
+	if (isSelectedSeat) {
+		return (
+			<g style={{ transformBox: "fill-box", transformOrigin: "center" }}>
+				<circle
+					cx={x}
+					cy={y}
+					r={11}
+					className="fill-none stroke-romantic-primary seat-chair-pulse"
+					strokeWidth={2}
+				/>
+				<circle
+					cx={x}
+					cy={y}
+					r={8.5}
+					className="fill-romantic-primary seat-chair-pop"
+					style={{ filter: "drop-shadow(0 2px 5px rgba(0,0,0,0.25))" }}
+				/>
+				<text
+					x={x}
+					y={y + 3}
+					textAnchor="middle"
+					className="fill-white seat-chair-pop"
+					style={{ fontSize: 9, fontWeight: 700 }}
+				>
+					{seatNumber}
+				</text>
+			</g>
+		);
+	}
+
 	return (
 		<circle
 			cx={x}
 			cy={y}
-			r={active ? 3.8 : 3.2}
-			className={
-				active
-					? "fill-romantic-primary transition-all duration-300"
-					: "fill-romantic-primary/30 transition-all duration-300"
-			}
+			r={isTableActive ? 3.6 : 3}
+			className={`transition-all duration-300 ${
+				isTableActive ? "fill-romantic-primary/55" : "fill-romantic-primary/25"
+			}`}
 		/>
 	);
 }
@@ -110,25 +144,28 @@ function Chair({ x, y, active }: { x: number; y: number; active: boolean }) {
 function RectTable({
 	config,
 	selected,
+	selectedSeatNumber,
 }: {
 	config: RectTableConfig;
 	selected: boolean;
+	selectedSeatNumber: number | null;
 }) {
-	const { number, x, y, width, height, leftSeats, rightSeats } = config;
-	const seatCount = leftSeats + rightSeats;
+	const { number, x, y, width, height, seatCount } = config;
 	const centerX = x + width / 2;
 	const centerY = y + height / 2;
-
-	const leftChairYs = getSideChairYPositions(y, y + height, leftSeats);
-	const rightChairYs = getSideChairYPositions(y, y + height, rightSeats);
+	const chairs = getRectSeatPositions(config);
 
 	return (
 		<g>
-			{leftChairYs.map((chairY, i) => (
-				<Chair key={`l-${i}`} x={x - 12} y={chairY} active={selected} />
-			))}
-			{rightChairYs.map((chairY, i) => (
-				<Chair key={`r-${i}`} x={x + width + 12} y={chairY} active={selected} />
+			{chairs.map((chair) => (
+				<Chair
+					key={chair.seatNumber}
+					x={chair.x}
+					y={chair.y}
+					seatNumber={chair.seatNumber}
+					isTableActive={selected}
+					isSelectedSeat={selected && chair.seatNumber === selectedSeatNumber}
+				/>
 			))}
 
 			{selected && (
@@ -138,7 +175,7 @@ function RectTable({
 					width={width + 16}
 					height={height + 16}
 					rx={20}
-					className="fill-none stroke-romantic-primary pulse-ring"
+					className="fill-none stroke-romantic-primary table-pulse"
 					strokeWidth={2}
 				/>
 			)}
@@ -195,22 +232,35 @@ function RectTable({
 	);
 }
 
-function HeadTable({ selected }: { selected: boolean }) {
-	const { x1, x2, midY, rx, ry, bottomY } = HEAD_TABLE;
+function HeadTable({
+	selected,
+	selectedSeatNumber,
+}: {
+	selected: boolean;
+	selectedSeatNumber: number | null;
+}) {
+	const { x1, x2, midY, rx, ry, bottomY, seatCount } = HEAD_TABLE;
 	const centerX = (x1 + x2) / 2;
 	const path = `M ${x1} ${midY} A ${rx} ${ry} 0 0 1 ${x2} ${midY} L ${x2} ${bottomY} L ${x1} ${bottomY} Z`;
-	const chairs = getArcChairPositions(6);
+	const chairs = getArcSeatPositions(seatCount);
 
 	return (
 		<g>
-			{chairs.map((chair, i) => (
-				<Chair key={i} x={chair.x} y={chair.y} active={selected} />
+			{chairs.map((chair) => (
+				<Chair
+					key={chair.seatNumber}
+					x={chair.x}
+					y={chair.y}
+					seatNumber={chair.seatNumber}
+					isTableActive={selected}
+					isSelectedSeat={selected && chair.seatNumber === selectedSeatNumber}
+				/>
 			))}
 
 			{selected && (
 				<path
 					d={`M ${x1 - 8} ${midY} A ${rx + 8} ${ry + 8} 0 0 1 ${x2 + 8} ${midY} L ${x2 + 8} ${bottomY + 8} L ${x1 - 8} ${bottomY + 8} Z`}
-					className="fill-none stroke-romantic-primary pulse-ring"
+					className="fill-none stroke-romantic-primary table-pulse"
 					strokeWidth={2}
 				/>
 			)}
@@ -257,7 +307,7 @@ function HeadTable({ selected }: { selected: boolean }) {
 	);
 }
 
-export default function TableMap({ selectedTable }: Props) {
+export default function TableMap({ selectedTable, selectedSeat }: Props) {
 	return (
 		<div className="card-romantic">
 			<style>{`
@@ -266,8 +316,28 @@ export default function TableMap({ selectedTable }: Props) {
 					70% { opacity: 0; transform: scale(1.12); }
 					100% { opacity: 0; transform: scale(1.12); }
 				}
-				.pulse-ring {
+				@keyframes seatChairPulseRing {
+					0% { opacity: 0.8; transform: scale(0.9); }
+					70% { opacity: 0; transform: scale(1.6); }
+					100% { opacity: 0; transform: scale(1.6); }
+				}
+				@keyframes seatChairPopIn {
+					0% { opacity: 0; transform: scale(0.4); }
+					70% { opacity: 1; transform: scale(1.15); }
+					100% { opacity: 1; transform: scale(1); }
+				}
+				.table-pulse {
 					animation: tableMapPulseRing 2s ease-out infinite;
+					transform-box: fill-box;
+					transform-origin: center;
+				}
+				.seat-chair-pulse {
+					animation: seatChairPulseRing 1.8s ease-out infinite;
+					transform-box: fill-box;
+					transform-origin: center;
+				}
+				.seat-chair-pop {
+					animation: seatChairPopIn 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) 0.35s both;
 					transform-box: fill-box;
 					transform-origin: center;
 				}
@@ -279,49 +349,28 @@ export default function TableMap({ selectedTable }: Props) {
 			>
 				{/* horseshoe guide line */}
 				<path
-					d={`M 30 175 L 30 105 Q 30 25 110 25 L 230 25 Q 310 25 310 105 L 310 175`}
+					d="M 30 175 L 30 105 Q 30 25 110 25 L 230 25 Q 310 25 310 105 L 310 175"
 					className="fill-none stroke-romantic-secondary/40"
 					strokeWidth={1.5}
 					strokeDasharray="4 6"
 				/>
 
-				{/* dance floor */}
-				<rect
-					x={110}
-					y={165}
-					width={120}
-					height={330}
-					rx={24}
-					className="fill-romantic-secondary/10 stroke-romantic-secondary/50"
-					strokeWidth={1}
-					strokeDasharray="5 5"
+				<HeadTable
+					selected={selectedTable === 1}
+					selectedSeatNumber={selectedTable === 1 ? selectedSeat : null}
 				/>
-				<text
-					x={170}
-					y={330}
-					textAnchor="middle"
-					className="fill-muted"
-					style={{
-						fontSize: 9,
-						letterSpacing: 4,
-						textTransform: "uppercase",
-					}}
-					transform="rotate(90 170 330)"
-				>
-					Parkiet
-				</text>
-
-				<HeadTable selected={selectedTable === 1} />
 
 				{RECT_TABLES.map((table) => (
 					<RectTable
 						key={table.number}
 						config={table}
 						selected={selectedTable === table.number}
+						selectedSeatNumber={
+							selectedTable === table.number ? selectedSeat : null
+						}
 					/>
 				))}
 
-				{/* entrance hint */}
 				<text
 					x={170}
 					y={512}
@@ -337,12 +386,14 @@ export default function TableMap({ selectedTable }: Props) {
 				<div className="w-24 h-px bg-romantic-primary/20 mb-4" />
 
 				<div className="flex items-center gap-2 text-xs text-muted">
-					<span className="w-2.5 h-2.5 rounded-full bg-romantic-primary" />
-					Twoje miejsce
+					<span className="w-3 h-3 rounded-full bg-romantic-primary" />
+					Twoje miejsce — stół {selectedTable}, miejsce {selectedSeat}
 				</div>
 
 				<p className="text-xs text-muted text-center mt-2">
-					Podświetlony został stół, przy którym znajduje się Twoje miejsce.
+					Ciemniejsze krzesła przy stole oznaczają Twój stół,
+					<br />
+					wyróżnione krzesło z numerem to dokładnie Twoje miejsce.
 				</p>
 			</div>
 		</div>
