@@ -11,55 +11,42 @@ import Contact from "./components/Contact";
 const weddingDate = new Date("2026-08-08T15:00:00");
 
 export default function App() {
-	return (
-		<div className="min-h-screen bg-romantic-bg text-romantic-text font-body">
-			<MobileNav />
+  return (
+    <div className="min-h-screen bg-romantic-bg text-romantic-text font-body">
+      <MobileNav />
 
-			<main className="pt-16">
-				{/* HERO */}
-				<Hero weddingDate={weddingDate} />
+      <main className="pt-16">
+        <Hero weddingDate={weddingDate} />
 
-				{/* COUNTDOWN */}
-				<section id="countdown" className="px-4 mt-8">
-					<div className="max-w-3xl mx-auto">
-						<h2 className="text-xl font-heading text-romantic-primary mb-3">
-							Odliczanie
-						</h2>
+        <section id="countdown" className="px-4 mt-8">
+          <div className="max-w-3xl mx-auto">
+            <h2 className="text-xl font-heading text-romantic-primary mb-3">
+              Odliczanie
+            </h2>
+            <div className="card-romantic">
+              <Countdown targetDate={weddingDate} />
+            </div>
+          </div>
+        </section>
 
-						<div className="card-romantic">
-							<Countdown targetDate={weddingDate} />
-						</div>
-					</div>
-				</section>
+        <section id="schedule" className="px-4 mt-10">
+          <div className="max-w-3xl mx-auto">
+            <h2 className="text-xl font-heading text-romantic-primary mb-3">
+              Harmonogram
+            </h2>
+            <Schedule />
+          </div>
+        </section>
+        <Menu />
+        <Location />
 
-				{/* HARMONOGRAM */}
-				<section id="schedule" className="px-4 mt-10">
-					<div className="max-w-3xl mx-auto">
-						<h2 className="text-xl font-heading text-romantic-primary mb-3">
-							Harmonogram
-						</h2>
+        <RSVP />
 
-						<Schedule />
-					</div>
-				</section>
+        <Contact />
 
-				{/* MENU */}
-				<Menu />
+        <div className="h-32" />
+      </main>
 
-				{/* PLAN STOŁÓW */}
-				<SeatFinder />
-
-				{/* LOKALIZACJA */}
-				<Location />
-
-				{/* RSVP */}
-				<RSVP />
-
-				{/* KONTAKT */}
-				<Contact />
-
-				<div className="h-32" />
-			</main>
-		</div>
-	);
+    </div>
+  );
 }
