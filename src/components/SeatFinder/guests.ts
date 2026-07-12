@@ -2,7 +2,7 @@ import type { Guest } from "./types";
 
 export const guests: Guest[] = [
 	{ firstName: "Mikołaj", lastName: "Hirsz", table: 1, seat: 3 },
-	{ firstName: "Wiktoria", lastName: "Hirsz", table: 1, seat: 4 },
+	{ firstName: "Wiktoria", lastName: "Wróblewska", table: 1, seat: 4 },
 	{ firstName: "Jan", lastName: "Kowalski", table: 2, seat: 1 },
 	{ firstName: "Anna", lastName: "Kowalska", table: 2, seat: 2 },
 	{ firstName: "Piotr", lastName: "Nowak", table: 3, seat: 1 },

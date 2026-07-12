@@ -1,5 +1,7 @@
+import { useState } from "react";
 import {
 	CakeSlice,
+	ChevronDown,
 	CookingPot,
 	Salad,
 	Sandwich,
@@ -76,6 +78,12 @@ const additions = [
 ];
 
 export default function Menu() {
+	const [openSections, setOpenSections] = useState<Record<string, boolean>>({});
+
+	const toggleSection = (title: string) => {
+		setOpenSections((prev) => ({ ...prev, [title]: !prev[title] }));
+	};
+
 	return (
 		<section id="menu" className="px-4 mt-12 scroll-mt-20">
 			<div className="max-w-3xl mx-auto">
@@ -132,47 +140,84 @@ export default function Menu() {
 						</div>
 					</div>
 
+					{/* ACCESSIBLE DISCLOSURE SECTIONS */}
 					<div className="space-y-3">
 						{sections.map((section) => {
 							const Icon = section.icon;
+							const isOpen = !!openSections[section.title];
+							const contentId = `menu-section-${section.title}`;
 
 							return (
 								<div
 									key={section.title}
 									className="
-                    collapse
-                    collapse-plus
-                    rounded-2xl
-                    border
-                    border-romantic-secondary
-                    bg-romantic-surface
-                    transition-all
-                    duration-300
-                    hover:border-romantic-primary/40
-                    hover:shadow-md
-                "
+										rounded-2xl
+										border
+										border-romantic-secondary
+										bg-romantic-surface
+										overflow-hidden
+										transition-all
+										duration-300
+										hover:border-romantic-primary/40
+										hover:shadow-md
+									"
 								>
-									<input type="checkbox" />
+									<button
+										type="button"
+										onClick={() => toggleSection(section.title)}
+										aria-expanded={isOpen}
+										aria-controls={contentId}
+										className="
+											focus-ring
+											w-full
+											flex
+											items-center
+											justify-between
+											gap-3
+											px-5
+											py-4
+											font-heading
+											text-romantic-text
+										"
+									>
+										<span className="flex items-center gap-3">
+											<div className="w-9 h-9 rounded-full bg-romantic-primary/10 flex items-center justify-center">
+												<Icon size={18} className="text-romantic-primary" />
+											</div>
+											<span>{section.title}</span>
+										</span>
 
-									<div className="collapse-title flex items-center gap-3 font-heading text-romantic-text">
-										<div className="w-9 h-9 rounded-full bg-romantic-primary/10 flex items-center justify-center">
-											<Icon size={18} className="text-romantic-primary" />
-										</div>
+										<ChevronDown
+											size={18}
+											className={`text-romantic-primary transition-transform duration-300 ${
+												isOpen ? "rotate-180" : ""
+											}`}
+										/>
+									</button>
 
-										<span>{section.title}</span>
-									</div>
-
-									<div className="collapse-content">
-										<div className="border-t border-romantic-secondary/40 pt-2">
-											<div className="space-y-1 text-sm">
-												{section.items.map((item) => (
-													<div
-														key={item}
-														className="py-2 border-b last:border-0 border-romantic-secondary/40"
-													>
-														{item}
-													</div>
-												))}
+									{/* grid-rows [0fr]→[1fr] animates height without measuring it in JS */}
+									<div
+										id={contentId}
+										role="region"
+										aria-hidden={!isOpen}
+										className={`grid transition-all duration-300 ease-out ${
+											isOpen
+												? "grid-rows-[1fr] opacity-100"
+												: "grid-rows-[0fr] opacity-0"
+										}`}
+									>
+										<div className="overflow-hidden">
+											<div className="px-5 pb-4 pt-2 border-t border-romantic-secondary/40">
+												<div className="space-y-1 text-sm">
+													{section.items.map((item) => (
+														<div
+															key={item}
+															className="py-2 border-b last:border-0 border-romantic-secondary/40"
+														>
+															{item}
+														</div>
+													))}
+												</div>
 											</div>
 										</div>
 									</div>
