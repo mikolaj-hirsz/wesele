@@ -38,7 +38,7 @@ const ITEMS: ScheduleItem[] = [
 	},
 	{
 		time: "21:00",
-		title: "Kulinarna niespodzinaka",
+		title: "Kulinarna niespodzianka",
 	},
 	{
 		time: "22:30",
