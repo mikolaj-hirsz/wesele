@@ -18,10 +18,10 @@ const VIEW_WIDTH = 340;
 const VIEW_HEIGHT = 520;
 
 const RECT_TABLES: RectTableConfig[] = [
-	{ number: 2, x: 30, y: 150, width: 70, height: 170, seatCount: 12 },
-	{ number: 3, x: 30, y: 345, width: 70, height: 140, seatCount: 10 },
-	{ number: 4, x: 240, y: 150, width: 70, height: 180, seatCount: 13 },
-	{ number: 5, x: 240, y: 355, width: 70, height: 140, seatCount: 12 },
+	{ number: 2, x: 30, y: 150, width: 70, height: 170, seatCount: 24 },
+	{ number: 4, x: 30, y: 345, width: 70, height: 140, seatCount: 20 },
+	{ number: 3, x: 240, y: 150, width: 70, height: 180, seatCount: 24 },
+	{ number: 5, x: 240, y: 355, width: 70, height: 140, seatCount: 26 },
 ];
 
 const HEAD_TABLE = {
@@ -46,7 +46,6 @@ function getSideChairYPositions(yTop: number, yBottom: number, count: number) {
 	return Array.from({ length: count }, (_, i) => usableTop + step * i);
 }
 
-/** Left side top-to-bottom first, then right side top-to-bottom. */
 function getRectSeatPositions(config: RectTableConfig): SeatPosition[] {
 	const { x, y, width, height, seatCount } = config;
 	const leftCount = Math.ceil(seatCount / 2);
@@ -150,7 +149,7 @@ function RectTable({
 	selected: boolean;
 	selectedSeatNumber: number | null;
 }) {
-	const { number, x, y, width, height, seatCount } = config;
+	const { number, x, y, width, height } = config;
 	const centerX = x + width / 2;
 	const centerY = y + height / 2;
 	const chairs = getRectSeatPositions(config);
@@ -216,16 +215,6 @@ function RectTable({
 					style={{ fontSize: 30 }}
 				>
 					{number}
-				</text>
-
-				<text
-					x={centerX}
-					y={centerY + 30}
-					textAnchor="middle"
-					className="fill-muted"
-					style={{ fontSize: 8 }}
-				>
-					{seatCount} osób
 				</text>
 			</g>
 		</g>
@@ -347,7 +336,6 @@ export default function TableMap({ selectedTable, selectedSeat }: Props) {
 				viewBox={`0 0 ${VIEW_WIDTH} ${VIEW_HEIGHT}`}
 				className="w-full h-auto max-w-md mx-auto"
 			>
-				{/* horseshoe guide line */}
 				<path
 					d="M 30 175 L 30 105 Q 30 25 110 25 L 230 25 Q 310 25 310 105 L 310 175"
 					className="fill-none stroke-romantic-secondary/40"

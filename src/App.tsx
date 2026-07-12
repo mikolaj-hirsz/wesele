@@ -67,10 +67,6 @@ export default function App() {
 				</Reveal>
 
 				<Reveal>
-					<Gifts />
-				</Reveal>
-
-				<Reveal>
 					<RSVP />
 				</Reveal>
 
@@ -80,6 +76,10 @@ export default function App() {
 
 				<Reveal>
 					<Contact />
+				</Reveal>
+
+				<Reveal>
+					<Gifts />
 				</Reveal>
 
 				<div id="bottom-sentinel" className="h-px" />

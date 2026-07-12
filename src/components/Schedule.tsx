@@ -14,11 +14,11 @@ const ITEMS: ScheduleItem[] = [
 		highlight: true,
 	},
 	{ time: "16:40", title: "Obiad" },
-	{
-		time: "17:40",
-		title: "Pierwszy taniec",
-		description: "Rozpoczęcie wspólnej zabawy tanecznej",
-	},
+	// {
+	// 	time: "17:40",
+	// 	title: "Pierwszy taniec",
+	// 	description: "Rozpoczęcie wspólnej zabawy tanecznej",
+	// },
 	{
 		time: "18:30",
 		title: "Tort weselny",

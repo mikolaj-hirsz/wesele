@@ -1,7 +1,6 @@
 import { Coffee } from "lucide-react";
 
-// TODO: confirm final breakfast time
-const BREAKFAST_TIME = "8:00 – 10:00";
+const BREAKFAST_TIME = "9:00 – 11:00";
 
 export default function Breakfast() {
 	return (

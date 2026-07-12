@@ -19,7 +19,7 @@ export default function PhotoShare() {
 
 					<p className="text-sm text-muted mb-6 max-w-sm mx-auto">
 						Macie zdjęcia lub filmy z naszego wesela? Wrzućcie je do wspólnego
-						albumu — chcemy zobaczyć ten dzień Waszymi oczami.
+						albumu, chcemy zobaczyć ten dzień Waszymi oczami.
 					</p>
 
 					<a

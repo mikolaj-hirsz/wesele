@@ -23,18 +23,18 @@ const sections = [
 	{
 		title: "Zupa",
 		icon: Soup,
-		items: ["Krem z pomidorów", "Oliwa bazyliowa"],
+		items: ["Krem z pomidorów"],
 	},
 	{
 		title: "Desery",
 		icon: CakeSlice,
-		items: ["Szarlotka z kruszonką", "Sernik tradycyjny", "WZ", "Miodownik"],
+		items: ["Szarlotka z kruszonką", "Sernik tradycyjny", "Miodownik"],
 	},
 	{
 		title: "Bufet",
 		icon: Salad,
 		items: [
-			"Tatar wołowy",
+			"Tatar",
 			"Mini kanapeczki",
 			"Sałatka Caprese",
 			"Tartaletki",
@@ -58,7 +58,7 @@ const sections = [
 	{
 		title: "Nocna zupa",
 		icon: Soup,
-		items: ["Swojska zupa na wędzonce", "Kiełbasa", "Ziemniaki"],
+		items: ["Swojska zupa na wędzonce z kiełbasą i ziemniakami"],
 	},
 ];
 
