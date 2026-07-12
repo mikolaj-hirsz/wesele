@@ -25,7 +25,7 @@ const ITEMS: ScheduleItem[] = [
 	{
 		time: "18:30",
 		title: "Tort weselny",
-		description: "Zapraszamy również na słodki bufet.",
+		description: "Po torcie zapraszamy na słodki bufet.",
 	},
 	{
 		time: "18:45",
