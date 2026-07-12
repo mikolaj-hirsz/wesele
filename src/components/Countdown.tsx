@@ -45,19 +45,16 @@ export default function Countdown({ targetDate }: Props) {
 
 	return (
 		<div className="text-center">
-			{/* TITLE */}
 			<p className="text-romantic-muted text-sm mb-3">
 				Do naszego ślubu pozostało
 			</p>
 
-			{/* SEPARATOR (ZOSTAJE) */}
 			<div className="flex items-center justify-center gap-3 mb-6">
 				<span className="h-px w-8 bg-romantic-primary/40" />
 				<span className="text-romantic-primary text-xs">♥</span>
 				<span className="h-px w-8 bg-romantic-primary/40" />
 			</div>
 
-			{/* COUNTDOWN BLOCK */}
 			<div
 				className="
           bg-romantic-surface
