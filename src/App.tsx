@@ -15,12 +15,9 @@ export default function App() {
     <div className="min-h-screen bg-romantic-bg text-romantic-text font-body">
       <MobileNav />
 
-      {/* CONTENT */}
       <main className="pt-16">
-        {/* HERO */}
         <Hero weddingDate={weddingDate} />
 
-        {/* COUNTDOWN */}
         <section id="countdown" className="px-4 mt-8">
           <div className="max-w-3xl mx-auto">
             <h2 className="text-xl font-heading text-romantic-primary mb-3">
@@ -32,7 +29,6 @@ export default function App() {
           </div>
         </section>
 
-        {/* SCHEDULE */}
         <section id="schedule" className="px-4 mt-10">
           <div className="max-w-3xl mx-auto">
             <h2 className="text-xl font-heading text-romantic-primary mb-3">
@@ -42,15 +38,12 @@ export default function App() {
           </div>
         </section>
         <Menu />
-        {/* LOCATION */}
         <Location />
 
         <RSVP />
 
-        {/* CONTACT */}
         <Contact />
 
-        {/* SPACE FOR BOTTOM CTA */}
         <div className="h-32" />
       </main>
 
