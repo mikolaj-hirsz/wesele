@@ -30,7 +30,7 @@ const ITEMS: ScheduleItem[] = [
 	{
 		time: "18:45",
 		title: "Wspólne zdjęcia",
-		description: "Zdjęcia z Parą Młodą.",
+		description: "Zapraszamy na wspólne zdjęcia z Parą Młodą.",
 	},
 	{
 		time: "20:00",
