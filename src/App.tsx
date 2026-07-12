@@ -2,11 +2,11 @@ import MobileNav from "./components/MobileNav";
 import Hero from "./components/Hero";
 import Countdown from "./components/Countdown";
 import Schedule from "./components/Schedule";
-import Location from "./components/Location";
-import Contact from "./components/Contact";
-import RSVP from "./components/RSVP";
 import Menu from "./components/Menu";
-
+import SeatFinder from "./components/SeatFinder/SeatFinder";
+import Location from "./components/Location";
+import RSVP from "./components/RSVP";
+import Contact from "./components/Contact";
 
 const weddingDate = new Date("2026-08-08T15:00:00");
 
