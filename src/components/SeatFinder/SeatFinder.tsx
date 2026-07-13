@@ -119,8 +119,7 @@ export default function SeatFinder() {
 				</h2>
 
 				<p className="text-sm text-muted mb-5">
-					Wpisz swoje imię lub nazwisko, aby sprawdzić przy którym stole i na
-					którym krześle będziesz siedzieć.
+					Wpisz swoje imię lub nazwisko, aby odnaleźć swoje miejsce przy stole.
 				</p>
 
 				{/* SEARCH */}

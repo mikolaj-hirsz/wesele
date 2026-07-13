@@ -22,7 +22,6 @@ const ITEMS: ScheduleItem[] = [
 	{
 		time: "18:30",
 		title: "Tort weselny",
-		description: "Po torcie zapraszamy na słodki bufet.",
 	},
 	{
 		time: "18:45",
@@ -108,8 +107,8 @@ export default function Schedule() {
 											Kościele Polskokatolickim
 										</span>
 										. Wszystkich Gości serdecznie zapraszamy do wspólnego
-										uczestnictwa. Osoby planujące dołączyć wyłącznie do
-										przyjęcia weselnego zapraszamy od{" "}
+										uczestnictwa. Gości, którzy planują przybyć wyłącznie na
+										przyjęcie weselne, zapraszamy od{" "}
 										<span className="font-medium text-romantic-text">
 											godziny 16:00
 										</span>
