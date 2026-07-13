@@ -2,23 +2,52 @@
 @tailwind components;
 @tailwind utilities;
 
-html, body, #root {
-  height: 100%;
+html,
+body,
+#root {
+	height: 100%;
 }
 
 body {
-  @apply bg-romantic-bg text-romantic-text font-body antialiased;
+	@apply bg-romantic-bg text-romantic-text font-body antialiased;
 }
 
 /* reusable surfaces */
 .card-romantic {
-  @apply bg-romantic-surface rounded-xl shadow-sm p-4;
+	@apply bg-romantic-surface rounded-xl shadow-sm p-4;
 }
 
 .text-muted {
-  @apply text-romantic-muted;
+	@apply text-romantic-muted;
 }
 
 html {
-  scroll-padding-top: 80px;
+	scroll-padding-top: 80px;
+}
+
+/* consistent keyboard-only focus treatment for interactive elements */
+.focus-ring {
+	@apply outline-none focus-visible:ring-2 focus-visible:ring-romantic-primary/40 focus-visible:ring-offset-2 focus-visible:ring-offset-romantic-bg;
+}
+
+/* countdown digit pulse on change */
+@keyframes segment-pulse {
+	0% {
+		transform: scale(1.18);
+		opacity: 0.55;
+	}
+	100% {
+		transform: scale(1);
+		opacity: 1;
+	}
+}
+
+.segment-pulse {
+	animation: segment-pulse 0.35s ease-out;
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.segment-pulse {
+		animation: none;
+	}
 }
