@@ -326,13 +326,6 @@ export default function SeatFinder() {
 							<p className="text-sm text-muted mt-6">
 								Do zobaczenia na weselu! ❤️
 							</p>
-
-							<img
-								src="/ornament.svg"
-								alt=""
-								aria-hidden
-								className="w-28 mx-auto mt-6 opacity-20"
-							/>
 						</div>
 
 						{/* MAP */}
