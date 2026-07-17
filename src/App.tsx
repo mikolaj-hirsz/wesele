@@ -67,11 +67,11 @@ export default function App() {
 				</Reveal>
 
 				<Reveal>
-					<RSVP />
+					<PhotoShare />
 				</Reveal>
 
 				<Reveal>
-					<PhotoShare />
+					<Gifts />
 				</Reveal>
 
 				<Reveal>
@@ -79,7 +79,7 @@ export default function App() {
 				</Reveal>
 
 				<Reveal>
-					<Gifts />
+					<RSVP />
 				</Reveal>
 
 				<div id="bottom-sentinel" className="h-px" />
